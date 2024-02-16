@@ -2,11 +2,11 @@
   "name": "+ protect",
   "version": "1.0.0",
   "description": "Bot Discord avec des commandes de ban, mute, kick, purge et help.",
-  "main": "index.js", // Remplacez par le nom de votre fichier principal
+  "main": "index.js", 
   "scripts": {
-    "start": "node index.js" // Remplacez par le nom de votre fichier principal
+    "start": "node index.js" 
   },
   "dependencies": {
-    "discord.js": "^13.1.0" // La version peut être différente en fonction des mises à jour
+    "discord.js": "^13.1.0" 
   }
 }
