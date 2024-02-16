@@ -1,5 +1,5 @@
 {
-  "name": "[+] protect",
+  "name": "+ protect",
   "version": "1.0.0",
   "description": "Bot Discord avec des commandes de ban, mute, kick, purge et help.",
   "main": "index.js", // Remplacez par le nom de votre fichier principal
