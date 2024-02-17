@@ -84,8 +84,26 @@ if (command === 'kick') {
   }
 
   if (command === 'purge') {
-    message.channel.send('Commande purge exécutée.');
-  }
+    // Vérifie si l'auteur du message a la permission de gérer les messages
+    if (!message.member.permissions.has('MANAGE_MESSAGES')) {
+      return message.reply("Vous n'avez pas la permission de gérer les messages.");
+    }
+
+    // Vérifie si un nombre a été spécifié
+    const amount = parseInt(args[0]);
+
+    if (isNaN(amount) || amount <= 0) {
+      return message.reply('Veuillez spécifier un nombre valide de messages à supprimer.');
+    }
+
+    try {
+      // Supprime le nombre spécifié de messages
+      const messages = await message.channel.bulkDelete(amount + 1);
+      message.reply(`Suppression de ${messages.size} messages.`);
+    } catch (error) {
+      console.error('Erreur lors de la suppression des messages :', error);
+      message.reply('Impossible de supprimer les messages.');
+    }
 
   if (command === 'help') {
     const helpEmbed = {
