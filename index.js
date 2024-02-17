@@ -7,7 +7,7 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}`);
 });
 
-client.on('messageCreate', (message) => {
+client.on('messageCreate', async (message) => {
   if (!message.content.startsWith(prefix) || message.author.bot) return;
 
   const args = message.content.slice(prefix.length).trim().split(/ +/);
@@ -44,7 +44,6 @@ client.on('messageCreate', (message) => {
       message.reply('Veuillez mentionner le membre que vous souhaitez kicker.');
     }
   }
-});
 
   if (command === 'mute') {
     message.channel.send('Commande mute exécutée.');
