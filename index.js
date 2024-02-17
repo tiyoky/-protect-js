@@ -1,5 +1,5 @@
 const { Client, Intents } = require('discord.js');
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.BANS] });
 
 const prefix = '+';
 
@@ -8,7 +8,6 @@ client.on('ready', () => {
   client.user.setActivity('made by _tiyoky', { type: 'PLAYING' });
 });
 
-
 client.on('messageCreate', async (message) => {
   if (!message.content.startsWith(prefix) || message.author.bot) return;
 
@@ -16,32 +15,41 @@ client.on('messageCreate', async (message) => {
   const command = args.shift().toLowerCase();
 
   if (command === 'ban') {
-    // Vérifie si l'auteur du message a la permission de bannir des membres
+    // Votre code pour la commande ban ici
+    message.channel.send('Commande ban exécutée.');
+  }
+
+  if (command === 'unban') {
+    // Vérifie si l'auteur du message a la permission de débannir des membres
     if (!message.member.permissions.has('BAN_MEMBERS')) {
-      return message.reply("Vous n'avez pas la permission de bannir des membres.");
+      return message.reply("Vous n'avez pas la permission de débannir des membres.");
     }
 
-    // Vérifie si le bot a la permission de bannir des membres
+    // Vérifie si le bot a la permission de débannir des membres
     if (!message.guild.me.permissions.has('BAN_MEMBERS')) {
-      return message.reply("Je n'ai pas la permission de bannir des membres.");
+      return message.reply("Je n'ai pas la permission de débannir des membres.");
     }
 
-    const member = message.mentions.members.first();
+    // Récupère l'ID du membre à débannir depuis les arguments
+    const memberID = args[0];
 
-    // Vérifie si un membre a été mentionné
-    if (member) {
-      try {
-        // Bannir le membre et envoie un message de confirmation
-        await member.ban();
-        message.channel.send(`Membre banni: ${member.user.tag}`);
-      } catch (error) {
-        console.error('Erreur lors du bannissement :', error);
-        message.reply("Impossible de bannir le membre.");
-      }
-    } else {
-      message.reply('Veuillez mentionner le membre que vous souhaitez bannir.');
+    if (!memberID || isNaN(memberID)) {
+      return message.reply('Veuillez fournir l\'ID du membre que vous souhaitez débannir.');
+    }
+
+    try {
+      // Débannir le membre par son ID
+      await message.guild.bans.remove(memberID);
+      message.channel.send(`Membre débanni avec l'ID : ${memberID}`);
+    } catch (error) {
+      console.error('Erreur lors du débannissement :', error);
+      message.reply("Impossible de débannir le membre.");
     }
   }
+
+// Remplacez 'YOUR_DISCORD_BOT_TOKEN' par le véritable jeton de votre bot
+
+
 
   if (command === 'kick') {
     // Vérifie si l'auteur du message a la permission de kicker des membres
