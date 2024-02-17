@@ -18,8 +18,33 @@ client.on('messageCreate', (message) => {
   }
 
   if (command === 'kick') {
-    message.channel.send('Commande kick exécutée.');
+    // Vérifie si l'auteur du message a la permission de kicker des membres
+    if (!message.member.permissions.has('KICK_MEMBERS')) {
+      return message.reply('Vous n\'avez pas la permission de kicker des membres.');
+    }
+
+    // Vérifie si le bot a la permission de kicker des membres
+    if (!message.guild.me.permissions.has('KICK_MEMBERS')) {
+      return message.reply('Je n'ai pas la permission de kicker des membres.');
+    }
+
+    const member = message.mentions.members.first();
+
+    // Vérifie si un membre a été mentionné
+    if (member) {
+      try {
+        // Kick le membre et envoie un message de confirmation
+        await member.kick();
+        message.channel.send(`Membre kické: ${member.user.tag}`);
+      } catch (error) {
+        console.error('Erreur lors du kick :', error);
+        message.reply('Impossible de kicker le membre.');
+      }
+    } else {
+      message.reply('Veuillez mentionner le membre que vous souhaitez kicker.');
+    }
   }
+});
 
   if (command === 'mute') {
     message.channel.send('Commande mute exécutée.');
