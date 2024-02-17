@@ -13,10 +13,36 @@ client.on('messageCreate', async (message) => {
   const args = message.content.slice(prefix.length).trim().split(/ +/);
   const command = args.shift().toLowerCase();
 
-  if (command === 'ban') {
-    message.channel.send('Commande ban exécutée.');
+   if (command === 'ban') {
+    // Vérifie si l'auteur du message a la permission de bannir des membres
+    if (!message.member.permissions.has('BAN_MEMBERS')) {
+      return message.reply("Vous n'avez pas la permission de bannir des membres.");
+    }
+
+    // Vérifie si le bot a la permission de bannir des membres
+    if (!message.guild.me.permissions.has('BAN_MEMBERS')) {
+      return message.reply("Je n'ai pas la permission de bannir des membres.");
+    }
+
+    const member = message.mentions.members.first();
+
+    // Vérifie si un membre a été mentionné
+    if (member) {
+      try {
+        // Bannir le membre et envoie un message de confirmation
+        await member.ban();
+        message.channel.send(`Membre banni: ${member.user.tag}`);
+      } catch (error) {
+        console.error('Erreur lors du bannissement :', error);
+        message.reply("Impossible de bannir le membre.");
+      }
+    } else {
+      message.reply('Veuillez mentionner le membre que vous souhaitez bannir.');
+    }
   }
 
+  // ... (les autres commandes)
+});
   if (command === 'kick') {
     // Vérifie si l'auteur du message a la permission de kicker des membres
     if (!message.member.permissions.has('KICK_MEMBERS')) {
