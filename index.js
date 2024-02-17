@@ -5,7 +5,9 @@ const prefix = '+';
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}`);
+  client.user.setActivity('made by _tiyoky', { type: 'PLAYING' });
 });
+
 
 client.on('messageCreate', async (message) => {
   if (!message.content.startsWith(prefix) || message.author.bot) return;
@@ -13,7 +15,7 @@ client.on('messageCreate', async (message) => {
   const args = message.content.slice(prefix.length).trim().split(/ +/);
   const command = args.shift().toLowerCase();
 
-   if (command === 'ban') {
+  if (command === 'ban') {
     // Vérifie si l'auteur du message a la permission de bannir des membres
     if (!message.member.permissions.has('BAN_MEMBERS')) {
       return message.reply("Vous n'avez pas la permission de bannir des membres.");
@@ -41,8 +43,6 @@ client.on('messageCreate', async (message) => {
     }
   }
 
-  // ... (les autres commandes)
-});
   if (command === 'kick') {
     // Vérifie si l'auteur du message a la permission de kicker des membres
     if (!message.member.permissions.has('KICK_MEMBERS')) {
