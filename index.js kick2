@@ -20,12 +20,12 @@ client.on('messageCreate', async (message) => {
   if (command === 'kick') {
     // Vérifie si l'auteur du message a la permission de kicker des membres
     if (!message.member.permissions.has('KICK_MEMBERS')) {
-      return message.reply('Vous n\'avez pas la permission de kicker des membres.');
+      return message.reply("Vous n'avez pas la permission de kicker des membres.");
     }
 
     // Vérifie si le bot a la permission de kicker des membres
     if (!message.guild.me.permissions.has('KICK_MEMBERS')) {
-      return message.reply('Je n'ai pas la permission de kicker des membres.');
+      return message.reply("Je n'ai pas la permission de kicker des membres.");
     }
 
     const member = message.mentions.members.first();
