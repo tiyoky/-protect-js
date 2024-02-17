@@ -1,5 +1,4 @@
-const Discord = require('discord.js');
-const { Client, Collection, Intents } = Discord;
+const { Client, Collection, Intents } = require('discord.js');
 const handler = require("./src/handlers/index");
 
 const client = new Client({
@@ -21,9 +20,7 @@ const client = new Client({
     ],
 });
 
-
 // ... le reste de votre code ...
-
 
 const prefix = '+';
 
