@@ -1,6 +1,5 @@
 const { Client, Intents } = require('discord.js');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
-// ... le reste de votre code ...
 
 const prefix = '+';
 
@@ -15,27 +14,22 @@ client.on('messageCreate', (message) => {
   const command = args.shift().toLowerCase();
 
   if (command === 'ban') {
-    // Votre code pour la commande ban ici
     message.channel.send('Commande ban exécutée.');
   }
 
   if (command === 'kick') {
-    // Votre code pour la commande kick ici
     message.channel.send('Commande kick exécutée.');
   }
 
   if (command === 'mute') {
-    // Votre code pour la commande mute ici
     message.channel.send('Commande mute exécutée.');
   }
 
   if (command === 'purge') {
-    // Votre code pour la commande purge ici
     message.channel.send('Commande purge exécutée.');
   }
 
   if (command === 'help') {
-    // Liste des commandes et leurs descriptions
     const helpEmbed = {
       color: 0x00ff00,
       title: 'Commandes du bot',
@@ -52,12 +46,4 @@ client.on('messageCreate', (message) => {
 });
 
 // Remplacez 'YOUR_DISCORD_BOT_TOKEN' par le véritable jeton de votre bot
-async function login() {
-  try {
-    await client.login(process.env.TOKEN);
-    console.log(`\x1b[36m%s\x1b[0m`, `|    🐇 Logged in as ${client.user.tag}`);
-  } catch (error) {
-    console.error('Failed to log in:', error);
-    process.exit(1);
-  }
-}
+client.login(process.env.TOKEN);
