@@ -31,7 +31,7 @@ client.on('messageCreate', (message) => {
 
   if (command === 'help') {
     const helpEmbed = {
-      color: #2ECC71,
+      color: 0x2ECC71,
       title: 'Commandes du bot',
       fields: [
         { name: 'Commande ban', value: '```+ban @utilisateur```', inline: true },
