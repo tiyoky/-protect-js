@@ -42,6 +42,61 @@ client.on('messageCreate', async (message) => {
     }
   }
 
+  ChatGPT
+Bien sûr, voici le code avec la commande unban ajoutée :
+
+javascript
+Copy code
+const { Client, Intents } = require('discord.js');
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.BANS] });
+
+const prefix = '+';
+
+client.on('ready', () => {
+  console.log(`Logged in as ${client.user.tag}`);
+  client.user.setActivity('made by _tiyoky', { type: 'PLAYING' });
+});
+
+client.on('messageCreate', async (message) => {
+  if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+  const args = message.content.slice(prefix.length).trim().split(/ +/);
+  const command = args.shift().toLowerCase();
+
+  if (command === 'ban') {
+    // Votre code pour la commande ban ici
+    message.channel.send('Commande ban exécutée.');
+  }
+
+  if (command === 'unban') {
+    // Vérifie si l'auteur du message a la permission de débannir des membres
+    if (!message.member.permissions.has('BAN_MEMBERS')) {
+      return message.reply("Vous n'avez pas la permission de débannir des membres.");
+    }
+
+    // Vérifie si le bot a la permission de débannir des membres
+    if (!message.guild.me.permissions.has('BAN_MEMBERS')) {
+      return message.reply("Je n'ai pas la permission de débannir des membres.");
+    }
+
+    // Récupère l'ID du membre à débannir depuis les arguments
+    const memberID = args[0];
+
+    if (!memberID || isNaN(memberID)) {
+      return message.reply('Veuillez fournir l\'ID du membre que vous souhaitez débannir.');
+    }
+
+    try {
+      // Débannir le membre par son ID
+      await message.guild.bans.remove(memberID);
+      message.channel.send(`Membre débanni avec l'ID : ${memberID}`);
+    } catch (error) {
+      console.error('Erreur lors du débannissement :', error);
+      message.reply("Impossible de débannir le membre.");
+    }
+  }
+
+
 if (command === 'kick') {
     // Vérifie si l'auteur du message a la permission de kicker des membres
     if (!message.member.permissions.has('KICK_MEMBERS')) {
