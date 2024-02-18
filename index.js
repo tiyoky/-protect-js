@@ -106,6 +106,8 @@ if (command === 'kick') {
     message.channel.send('Commande mute exécutée.');
   }
 
+  // ... le reste de votre code ...
+
   if (command === 'purge') {
     // Vérifie si l'auteur du message a la permission de gérer les messages
     if (!message.member.permissions.has('MANAGE_MESSAGES')) {
@@ -127,6 +129,7 @@ if (command === 'kick') {
       console.error('Erreur lors de la suppression des messages :', error);
       message.reply('Impossible de supprimer les messages.');
     }
+  } // Fermeture correcte de la condition
 
   if (command === 'help') {
     const helpEmbed = {
@@ -144,8 +147,5 @@ if (command === 'kick') {
   }
 });
 
-
 // Remplacez 'YOUR_DISCORD_BOT_TOKEN' par le véritable jeton de votre bot
 client.login(process.env.TOKEN);
-
-// Remplacez 'YOUR_DISCORD_BOT_TOKEN' par le véritable jeton de votre bot
