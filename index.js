@@ -140,6 +140,7 @@ if (command === 'kick') {
         { name: 'Commande kick', value: '```+kick @utilisateur```', inline: true },
         { name: 'Commande mute', value: '```+mute @utilisateur```', inline: true },
         { name: 'Commande purge', value: '```+purge nombre```', inline: true },
+        { name: 'Commande unban', value: '```+unban id```', inline: true },
       ],
     };
 
