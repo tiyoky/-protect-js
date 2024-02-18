@@ -18,8 +18,31 @@ client.on('messageCreate', async (message) => {
   const command = args.shift().toLowerCase();
 
   if (command === 'ban') {
-    // Votre code pour la commande ban ici
-    message.channel.send('Commande ban exécutée.');
+    // Vérifie si l'auteur du message a la permission de bannir des membres
+    if (!message.member.permissions.has('BAN_MEMBERS')) {
+      return message.reply("Vous n'avez pas la permission de bannir des membres.");
+    }
+
+    // Vérifie si le bot a la permission de bannir des membres
+    if (!message.guild.me.permissions.has('BAN_MEMBERS')) {
+      return message.reply("Je n'ai pas la permission de bannir des membres.");
+    }
+
+    const member = message.mentions.members.first();
+
+    // Vérifie si un membre a été mentionné
+    if (member) {
+      try {
+        // Bannir le membre et envoie un message de confirmation
+        await member.ban();
+        message.channel.send(`Membre banni: ${member.user.tag}`);
+      } catch (error) {
+        console.error('Erreur lors du bannissement :', error);
+        message.reply("Impossible de bannir le membre.");
+      }
+    } else {
+      message.reply('Veuillez mentionner le membre que vous souhaitez bannir.');
+    }
   }
 
   if (command === 'unban') {
@@ -83,8 +106,6 @@ if (command === 'kick') {
     message.channel.send('Commande mute exécutée.');
   }
 
-  // ... le reste de votre code ...
-
   if (command === 'purge') {
     // Vérifie si l'auteur du message a la permission de gérer les messages
     if (!message.member.permissions.has('MANAGE_MESSAGES')) {
@@ -106,7 +127,6 @@ if (command === 'kick') {
       console.error('Erreur lors de la suppression des messages :', error);
       message.reply('Impossible de supprimer les messages.');
     }
-  } // Fermeture correcte de la condition
 
   if (command === 'help') {
     const helpEmbed = {
@@ -124,5 +144,8 @@ if (command === 'kick') {
   }
 });
 
+
 // Remplacez 'YOUR_DISCORD_BOT_TOKEN' par le véritable jeton de votre bot
 client.login(process.env.TOKEN);
+
+// Remplacez 'YOUR_DISCORD_BOT_TOKEN' par le véritable jeton de votre bot
