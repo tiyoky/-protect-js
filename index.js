@@ -103,8 +103,38 @@ if (command === 'kick') {
   }
 
   if (command === 'mute') {
-    message.channel.send('Commande mute exécutée.');
-  }
+    // Vérifie si l'auteur du message a la permission de gérer les rôles
+    if (!message.member.permissions.has('MANAGE_ROLES')) {
+      return message.reply("Vous n'avez pas la permission de gérer les rôles.");
+    }
+
+    const member = message.mentions.members.first();
+
+    // Vérifie si un membre a été mentionné
+    if (member) {
+      try {
+        // Récupère le rôle "Muted" ou crée-le s'il n'existe pas
+        let mutedRole = message.guild.roles.cache.find(role => role.name === 'Muted');
+        if (!mutedRole) {
+          mutedRole = await message.guild.roles.create({
+            name: 'Muted',
+            permissions: [],
+          });
+        }
+
+        // Applique le rôle "Muted" au membre
+        await member.roles.add(mutedRole);
+        
+        message.channel.send(`Membre muté: ${member.user.tag}`);
+      } catch (error) {
+        console.error('Erreur lors du mute :', error);
+        message.reply('Impossible de muter le membre.');
+      }
+    } else {
+      message.reply('Veuillez mentionner le membre que vous souhaitez muter.');
+    }
+}
+
 
   // ... le reste de votre code ...
 
